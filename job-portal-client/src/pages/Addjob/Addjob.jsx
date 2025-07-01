@@ -3,21 +3,20 @@ import Swal from "sweetalert2";
 import useAuth from "../../Hooks/UseAuth";
 
 const Addjob = () => {
-
   const navigate = useNavigate();
-  const {user} = useAuth();
+  const { user } = useAuth();
 
   const handleAddJob = (e) => {
     e.preventDefault();
     const formData = new FormData(e.target);
     const initialData = Object.fromEntries(formData.entries());
     const { min, max, currency, ...newJob } = initialData;
-    newJob.salaryRange = { min, max, currency };
+    newJob.salaryRange = { min:parseInt(min), max:parseInt(max), currency };
     newJob.requirements = newJob.requirements.split("\n");
     newJob.responsibilities = newJob.responsibilities.split("\n");
     console.log(newJob);
 
-    fetch("http://localhost:5000/jobs/", {
+    fetch("https://job-portal-server-teal-seven.vercel.app/jobs/", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -34,7 +33,7 @@ const Addjob = () => {
             showConfirmButton: false,
             timer: 1500,
           });
-          navigate('/mypostedjobs');
+          navigate("/mypostedjobs");
         }
       });
   };
@@ -99,7 +98,7 @@ const Addjob = () => {
           <div className="gap-1">
             <input
               name="min"
-              type="text"
+              type="number"
               className="input"
               placeholder="Min"
               required
@@ -109,7 +108,7 @@ const Addjob = () => {
           <div>
             <input
               name="max"
-              type="text"
+              type="number"
               className="input"
               placeholder="Max"
               required
@@ -157,6 +156,7 @@ const Addjob = () => {
 
         <label className="label">HR Name</label>
         <input
+          readOnly
           name="hr_name"
           type="text"
           className="input"
@@ -166,6 +166,7 @@ const Addjob = () => {
 
         <label className="label">HR Email</label>
         <input
+          readOnly
           name="hr_email"
           type="email"
           className="input"

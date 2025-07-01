@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../Hooks/UseAuth";
+import axios from "axios";
+import useAxiosSecure from "../../Hooks/useAxiosSecure";
+
 
 const MyApplications = () => {
   const { user } = useAuth();
   const [jobs, setJobs] = useState([]);
 
+  const axiosSecure = useAxiosSecure();
+
   useEffect(() => {
-    fetch(`http://localhost:5000/job-application?email=${user.email}`)
-      .then((res) => res.json())
-      .then((data) => setJobs(data));
-  }, [user.email]);
+    // fetch(`https://job-portal-server-teal-seven.vercel.app/job-application?email=${user.email}`)
+    //   .then((res) => res.json())
+    //   .then((data) => setJobs(data));
+
+    // axios.get(`https://job-portal-server-teal-seven.vercel.app/job-application?email=${user.email}`, {
+    //   withCredentials:true
+    // })
+    //   .then(res => setJobs(res.data))
+
+    axiosSecure.get(`/job-application?email=${user.email}`)
+    .then(res => setJobs(res.data));
+
+
+  }, [user?.email]);
   return (
     <div className="overflow-x-auto">
       <table className="table">

@@ -11,6 +11,7 @@ import MyApplications from "../pages/MyApplications/MyApplications";
 import Addjob from "../pages/Addjob/Addjob";
 import MyPosteJobs from "../pages/MyPostedJobs/MyPosteJobs";
 import ViewApplications from "../pages/ViewApplications/ViewApplications";
+import Alljob from "../pages/Alljob/Alljob";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: <Home></Home>,
+      },
+      {
+        path: "/jobs",
+        element: <Alljob/>,
       },
       {
         path: "/register",
@@ -38,7 +43,7 @@ const router = createBrowserRouter([
           </PrivateRoute>
         ),
         loader: ({ params }) =>
-          fetch(`http://localhost:5000/jobs/${params.id}`),
+          fetch(`https://job-portal-server-teal-seven.vercel.app/jobs/${params.id}`),
       },
       {
         path: "/jobApply/:id",
@@ -63,7 +68,7 @@ const router = createBrowserRouter([
       {
         path: '/viewapplications/:job_id',
         element: <PrivateRoute><ViewApplications></ViewApplications></PrivateRoute>,
-        loader: ({params}) => fetch(`http://localhost:5000/job-applications/jobs/${params.job_id}`)
+        loader: ({params}) => fetch(`https://job-portal-server-teal-seven.vercel.app/job-applications/jobs/${params.job_id}`)
       }
     ],
   },
